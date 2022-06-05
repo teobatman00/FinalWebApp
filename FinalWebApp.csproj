@@ -13,9 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Middlewares\" />
     <Folder Include="Enums\" />
-    <Folder Include="Constants\" />
   </ItemGroup>
 
 </Project>
