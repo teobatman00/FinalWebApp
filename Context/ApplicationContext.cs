@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FinalWebApp.Entities;
 
 namespace FinalWebApp.Context
 {
@@ -13,6 +14,14 @@ namespace FinalWebApp.Context
         {
         }
 
+        public DbSet<CategoryEntity> Categories { get; set; }
+        public DbSet<ContactEntity> Contacts { get; set; }
+        public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<ProductEntity> Products { get; set; }
+        public DbSet<TransactionEntity> Transactions { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<UserRoleEntity> UserRoles { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLoggerFactory(GetLoggerFactory());

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FinalWebApp.Services.BaseInterfaces
 {
-    public interface ICreateService<TReq, TResp> where TReq : class where TResp : class
+    public interface ICreateService<TReq, TResp> where TReq : class
     {
         Task<ApiResponse<TResp>> CreateAsync(TReq request);
     }
