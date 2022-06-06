@@ -10,6 +10,6 @@ namespace FinalWebApp.Controllers.BaseInterfaces
 {
     public interface IGetDetailController<TId, TResp> where TResp : class
     {
-        ActionResult<Task<ApiResponse<TResp>>> GetDetailAsync(TId id);
+        Task<ActionResult<ApiResponse<TResp>>> GetDetailAsync(TId id);
     }
 }

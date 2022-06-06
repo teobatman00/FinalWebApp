@@ -10,6 +10,6 @@ namespace FinalWebApp.Controllers.BaseInterfaces
 {
     public interface IDeleteController<TId, TResp>
     {
-        ActionResult<Task<ApiResponse<TResp>>> DeleteAsync(TId id);
+        Task<ActionResult<ApiResponse<TResp>>> DeleteAsync(TId id);
     }
 }

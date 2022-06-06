@@ -1,7 +1,9 @@
 ﻿using FinalWebApp.Controllers.Interfaces;
 using FinalWebApp.Dto.Requests.Category;
 using FinalWebApp.Dto.Responses.Category;
+using FinalWebApp.Filters;
 using FinalWebApp.Models;
+using FinalWebApp.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,27 +13,45 @@ namespace FinalWebApp.Controllers
     [ApiController]
     public class CategoryController : ControllerBase, ICategoryController
     {
-        public ActionResult<Task<ApiResponse<bool>>> CreateAsync([FromBody] CategoryCreateRequest request)
+
+        private ICategoryService categoryService;
+
+        public CategoryController(ICategoryService categoryService)
+        {
+            this.categoryService = categoryService;
+        }
+
+        [HttpPost("")]
+        [ValidatedModel]
+        public async Task<ActionResult<ApiResponse<bool>>> CreateAsync([FromBody] CategoryCreateRequest request)
+        {
+            var result = await categoryService.CreateAsync(request);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public Task<ActionResult<ApiResponse<bool>>> DeleteAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult<Task<ApiResponse<bool>>> DeleteAsync(string id)
+        [HttpGet("{id}")]
+        public Task<ActionResult<ApiResponse<CategoryGetDetailResponse>>> GetDetailAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult<Task<ApiResponse<CategoryGetDetailResponse>>> GetDetailAsync(string id)
+        [HttpGet("")]
+        [ValidatedModel]
+        public async Task<ActionResult<ApiResponse<PagePagination<CategoryGetListResponse>>>> GetListAsync([FromQuery] BaseQueryFilter filter)
         {
-            throw new NotImplementedException();
+            var result = await categoryService.GetListAsync(filter);
+            return Ok(result);
         }
 
-        public ActionResult<Task<ApiResponse<PagePagination<CategoryGetListResponse>>>> GetListAsync([FromQuery] BaseQueryFilter filter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult<Task<ApiResponse<bool>>> UpdateAsync([FromBody] CategoryUpdateRequest resq)
+        [HttpPut("{id}")]
+        [ValidatedModel]
+        public Task<ActionResult<ApiResponse<bool>>> UpdateAsync([FromBody] CategoryUpdateRequest resq, string id)
         {
             throw new NotImplementedException();
         }

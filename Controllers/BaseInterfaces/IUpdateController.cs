@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace FinalWebApp.Controllers.BaseInterfaces
 {
-    public interface IUpdateController<TReq, TResp> where TReq : class
+    public interface IUpdateController<TId, TReq, TResp> where TReq : class
     {
-        ActionResult<Task<ApiResponse<TResp>>> UpdateAsync([FromBody] TReq resq);
+        Task<ActionResult<ApiResponse<TResp>>> UpdateAsync([FromBody] TReq resq, TId id);
     }
 }

@@ -15,7 +15,7 @@ namespace FinalWebApp.Controllers.Interfaces
         IGetListController<CategoryGetListResponse, BaseQueryFilter>,
         IGetDetailController<string, CategoryGetDetailResponse>,
         ICreateController<CategoryCreateRequest, bool>,
-        IUpdateController<CategoryUpdateRequest, bool>,
+        IUpdateController<string, CategoryUpdateRequest, bool>,
         IDeleteController<string, bool>
     {
     }

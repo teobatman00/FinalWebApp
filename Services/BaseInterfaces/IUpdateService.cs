@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace FinalWebApp.Services.BaseInterfaces
 {
-    public interface IUpdateService<TReq, TResp> where TReq : class
+    public interface IUpdateService<TId ,TReq, TResp> where TReq : class
     {
-        Task<ApiResponse<TResp>> UpdateAsync(TReq request);
+        Task<ApiResponse<TResp>> UpdateAsync(TId id, TReq request);
     }
 }

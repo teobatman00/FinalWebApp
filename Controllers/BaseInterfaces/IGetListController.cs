@@ -10,6 +10,6 @@ namespace FinalWebApp.Controllers.BaseInterfaces
 {
     public interface IGetListController<TResp, TFilter> where TResp : class where TFilter : class
     {
-        ActionResult<Task<ApiResponse<PagePagination<TResp>>>> GetListAsync([FromQuery] TFilter filter);
+        Task<ActionResult<ApiResponse<PagePagination<TResp>>>> GetListAsync([FromQuery] TFilter filter);
     }
 }

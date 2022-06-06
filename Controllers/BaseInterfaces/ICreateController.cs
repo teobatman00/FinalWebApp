@@ -10,6 +10,6 @@ namespace FinalWebApp.Controllers.BaseInterfaces
 {
     public interface ICreateController<TReq, TResp> where TReq : class
     {
-        ActionResult<Task<ApiResponse<TResp>>> CreateAsync([FromBody] TReq request);
+        Task<ActionResult<ApiResponse<TResp>>> CreateAsync([FromBody] TReq request);
     }
 }

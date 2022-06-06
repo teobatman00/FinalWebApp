@@ -1,13 +1,22 @@
 using AutoMapper;
+using FinalWebApp.Context;
 using FinalWebApp.Controllers;
 using FinalWebApp.Mappers;
 using FinalWebApp.Repositories;
 using FinalWebApp.Repositories.Interfaces;
+using FinalWebApp.Services;
+using FinalWebApp.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<ApplicationContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabase"));
+});
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -22,6 +31,9 @@ var mapperConfig = new MapperConfiguration(mp =>
     mp.AddProfile(new ProductMapperProfile());
 });
 builder.Services.AddSingleton(mapperConfig.CreateMapper());
+
+//register service 
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 // register repository
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

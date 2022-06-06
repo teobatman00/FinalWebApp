@@ -27,6 +27,11 @@ namespace FinalWebApp.Context
             optionsBuilder.UseLoggerFactory(GetLoggerFactory());
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserEntity>().HasIndex(i => i.Email).IsUnique();
+        }
+
         private ILoggerFactory GetLoggerFactory()
         {
             IServiceCollection services = new ServiceCollection();
