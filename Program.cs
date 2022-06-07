@@ -29,11 +29,13 @@ var mapperConfig = new MapperConfiguration(mp =>
 {
     mp.AddProfile(new CategoryMapperProfile());
     mp.AddProfile(new ProductMapperProfile());
+    mp.AddProfile(new ContactMapperProfile());
 });
 builder.Services.AddSingleton(mapperConfig.CreateMapper());
 
 //register service 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 
 // register repository
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

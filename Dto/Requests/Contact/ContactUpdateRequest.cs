@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FinalWebApp.Dto.Requests.Contact
 {
-    public record ContactCreateRequest
+    public record ContactUpdateRequest
     {
         [Required]
         public string FullName { get; set; }
@@ -20,6 +20,5 @@ namespace FinalWebApp.Dto.Requests.Contact
         [Required]
         public string Subject { get; set; }
         public string Message { get; set; }
-
     }
 }
