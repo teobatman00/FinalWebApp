@@ -30,15 +30,17 @@ namespace FinalWebApp.Controllers
         }
 
         [HttpDelete("{id}")]
-        public Task<ActionResult<ApiResponse<bool>>> DeleteAsync(string id)
+        public async Task<ActionResult<ApiResponse<bool>>> DeleteAsync(string id)
         {
-            throw new NotImplementedException();
+            var result = await categoryService.DeleteAsync(id);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public Task<ActionResult<ApiResponse<CategoryGetDetailResponse>>> GetDetailAsync(string id)
+        public async Task<ActionResult<ApiResponse<CategoryGetDetailResponse>>> GetDetailAsync(string id)
         {
-            throw new NotImplementedException();
+            var result = await categoryService.GetDetailAsync(id);
+            return Ok(result);
         }
 
         [HttpGet("")]
@@ -51,9 +53,10 @@ namespace FinalWebApp.Controllers
 
         [HttpPut("{id}")]
         [ValidatedModel]
-        public Task<ActionResult<ApiResponse<bool>>> UpdateAsync([FromBody] CategoryUpdateRequest resq, string id)
+        public async Task<ActionResult<ApiResponse<bool>>> UpdateAsync([FromBody] CategoryUpdateRequest resq, string id)
         {
-            throw new NotImplementedException();
+            var result = await categoryService.UpdateAsync(id, resq);
+            return Ok(result);
         }
     }
 }

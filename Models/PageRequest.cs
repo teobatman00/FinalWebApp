@@ -14,7 +14,7 @@ namespace FinalWebApp.Models
         [Range(minimum: 1, maximum: int.MaxValue)]
         public int Page { get; set; } = 1;
 
-        public static PageRequest of(int page, int size) => new PageRequest
+        public static PageRequest Of(int page, int size) => new()
         {
             Size = size,
             Page = page

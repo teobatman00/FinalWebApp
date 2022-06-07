@@ -9,6 +9,7 @@ namespace FinalWebApp.Dto.Responses.Category
 {
     public record CategoryGetListResponse
     {
+        public string Id { get; set; }
         public string Name { get; set; }
     }
 }

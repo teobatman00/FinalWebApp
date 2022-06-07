@@ -12,7 +12,10 @@ namespace FinalWebApp.Services.Interfaces
 {
     public interface ICategoryService: 
         IGetListService<CategoryGetListResponse, BaseQueryFilter>,
-        ICreateService<CategoryCreateRequest, bool>
+        ICreateService<CategoryCreateRequest, bool>,
+        IGetDetailService<string, CategoryGetDetailResponse>,
+        IDeleteService<string, bool>,
+        IUpdateService<string, CategoryUpdateRequest, bool>
     {
 
     }

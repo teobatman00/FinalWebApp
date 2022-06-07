@@ -20,5 +20,7 @@ namespace FinalWebApp.Repositories.Interfaces
         Task DeleteAsync(TE entity);
         Task DeleteAllAsync();
         Task DeleteRangeAsync(IEnumerable<TE> entities);
+        Task<bool> ExistsByIdAsync(TPk id);
+        Task<bool> ExistsByAsync(Expression<Func<TE, bool>> predicate);
     }
 }

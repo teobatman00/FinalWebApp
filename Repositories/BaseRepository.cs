@@ -74,6 +74,32 @@ namespace FinalWebApp.Repositories
             }
         }
 
+        public async Task<bool> ExistsByIdAsync(TPk id)
+        {
+            try
+            {
+                return await _db.AnyAsync(s => s.Id.Equals(id));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message);
+                throw;
+            }
+        }
+
+        public async Task<bool> ExistsByAsync(Expression<Func<TE, bool>> predicate)
+        {
+            try
+            {
+                return await _db.AnyAsync(predicate);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message);
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<TE>> GetAllAsync()
         {
             try

@@ -15,7 +15,10 @@ namespace FinalWebApp.Mappers
         public CategoryMapperProfile()
         {
             CreateMap<CategoryCreateRequest, CategoryEntity>();
-            CreateMap<IEnumerable<CategoryEntity>, IEnumerable<CategoryGetListResponse>>();
+            CreateMap<CategoryEntity, CategoryGetListResponse>()
+                .ForSourceMember(s => s.Description, y => y.DoNotValidate());
+            CreateMap<CategoryEntity, CategoryGetDetailResponse>();
+
         }
 
     }
