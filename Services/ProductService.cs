@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using FinalWebApp.Dto.Requests.Product;
 using FinalWebApp.Dto.Responses.Product;
+using FinalWebApp.Entities;
+using FinalWebApp.Exceptions;
 using FinalWebApp.Models;
 
 namespace FinalWebApp.Services
@@ -16,9 +18,11 @@ namespace FinalWebApp.Services
     {
         private IProductRepository productRepository;
         private ICategoryRepository _categoryRepository;
-        public ProductService(IMapper mapper, ILogger<ProductService> logger, IProductRepository productRepository) : base(mapper, logger)
+        private IOrderRepository _orderRepository;
+        public ProductService(IMapper mapper, ILogger<ProductService> logger, IProductRepository productRepository, IOrderRepository orderRepository) : base(mapper, logger)
         {
             this.productRepository = productRepository;
+            _orderRepository = orderRepository;
         }
 
         public Task<ApiResponse<ProductGetDetailResponse>> GetDetailAsync(string id)
@@ -31,9 +35,15 @@ namespace FinalWebApp.Services
             throw new NotImplementedException();
         }
 
-        public Task<ApiResponse<bool>> CreateAsync(ProductCreateRequest request)
+        public async Task<ApiResponse<bool>> CreateAsync(ProductCreateRequest request)
         {
-            throw new NotImplementedException();
+            var categoryEntity = await _categoryRepository.GetByIdAsync(request.CategoryId);
+            if (categoryEntity is null)
+                throw new NotFoundDataException($"Category {request.CategoryId} not found");
+            var listOrder = await _orderRepository.GetAllByIdAsync(request.OrdersId);
+            var createEntity = _mapper.Map<ProductCreateRequest, ProductEntity>(request);
+            await productRepository.SaveAsync(createEntity);
+            return new ApiResponse<bool>().Success(true);
         }
 
         public Task<ApiResponse<bool>> UpdateAsync(string id, ProductUpdateRequest request)

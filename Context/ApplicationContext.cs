@@ -30,6 +30,7 @@ namespace FinalWebApp.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserEntity>().HasIndex(i => i.Email).IsUnique();
+            modelBuilder.Entity<ProductEntity>().HasIndex(i => i.Slugs).IsUnique();
         }
 
         private ILoggerFactory GetLoggerFactory()
