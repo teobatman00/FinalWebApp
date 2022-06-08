@@ -10,6 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using FinalWebApp.Exceptions;
 
 namespace FinalWebApp.Repositories
 {
@@ -122,6 +123,28 @@ namespace FinalWebApp.Repositories
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<TE>> GetAllByIdAsync(IEnumerable<TPk> id)
+        {
+            try
+            {
+                IList<TE> result = new List<TE>();
+                foreach (var idItem in id)
+                {
+                    var entity = await GetByIdAsync(idItem);
+                    if (entity is null)
+                        throw new NotFoundDataException($"Cannot find {nameof(TE)} by id {idItem}");
+                    result.Add(entity);
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message);
                 throw;
             }
         }
