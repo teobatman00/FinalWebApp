@@ -30,30 +30,52 @@ namespace FinalWebApp.Services
             throw new NotImplementedException();
         }
 
-        public Task<ApiResponse<PagePagination<ProductGetListResponse>>> GetListAsync(BaseQueryFilter filter)
+        public async Task<ApiResponse<PagePagination<ProductGetListResponse>>> GetListAsync(BaseQueryFilter filter)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation("Get List product");
+            var listEntity = await productRepository.GetAllAsync(PageRequest.Of(filter.Page, filter.Size));
+            var listResponse = _mapper.Map<IEnumerable<ProductEntity>, IEnumerable<ProductGetListResponse>>(listEntity).ToList();
+            return new ApiResponse<PagePagination<ProductGetListResponse>>().Success(
+                    new PagePagination<ProductGetListResponse>
+                    {
+                        Content = listResponse,
+                        First = 1,
+                        Last = listResponse.Count()
+                    }
+                );
         }
 
         public async Task<ApiResponse<bool>> CreateAsync(ProductCreateRequest request)
         {
+            var isAvailableSlug = await productRepository.ExistsByAsync(s => s.Slugs.Equals(request.Slugs));
+            if (isAvailableSlug)
+                throw new BadRequestException("Slug is duplicate");
             var categoryEntity = await _categoryRepository.GetByIdAsync(request.CategoryId);
             if (categoryEntity is null)
                 throw new NotFoundDataException($"Category {request.CategoryId} not found");
             var listOrder = await _orderRepository.GetAllByIdAsync(request.OrdersId);
             var createEntity = _mapper.Map<ProductCreateRequest, ProductEntity>(request);
+            createEntity.Category = categoryEntity;
+            createEntity.Orders = listOrder.ToList();
             await productRepository.SaveAsync(createEntity);
             return new ApiResponse<bool>().Success(true);
         }
 
-        public Task<ApiResponse<bool>> UpdateAsync(string id, ProductUpdateRequest request)
+        public async Task<ApiResponse<bool>> UpdateAsync(string id, ProductUpdateRequest request)
         {
-            throw new NotImplementedException();
+            var availableEntity = await productRepository.GetByIdAsync(id);
+            if (availableEntity is null)
+                throw new NotFoundDataException("Product not found");
+            return null;
         }
 
-        public Task<ApiResponse<bool>> DeleteAsync(string id)
+        public async Task<ApiResponse<bool>> DeleteAsync(string id)
         {
-            throw new NotImplementedException();
+            var availableEntity = await productRepository.GetByIdAsync(id);
+            if (availableEntity is null)
+                throw new NotFoundDataException("Product not found");
+            await productRepository.DeleteAsync(availableEntity);
+            return new ApiResponse<bool>().Success(true);
         }
     }
 }

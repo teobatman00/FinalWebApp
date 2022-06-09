@@ -36,7 +36,11 @@ builder.Services.AddSingleton(mapperConfig.CreateMapper());
 //register service 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IContactService, ContactService>();
-builder.Services.AddScoped<IProductService, ProductService>();  
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRoleService, UserRoleService>();
 
 // register repository
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -45,6 +49,7 @@ builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

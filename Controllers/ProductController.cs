@@ -20,29 +20,39 @@ namespace FinalWebApp.Controllers
             this.productService = productService;
         }
 
-        public Task<ActionResult<ApiResponse<bool>>> CreateAsync([FromBody] ProductCreateRequest request)
+        [HttpPost("")]
+        public async Task<ActionResult<ApiResponse<bool>>> CreateAsync([FromBody] ProductCreateRequest request)
         {
-            throw new NotImplementedException();
+            var result = await productService.CreateAsync(request);
+            return Ok(result);
         }
 
-        public Task<ActionResult<ApiResponse<bool>>> DeleteAsync(string id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ApiResponse<bool>>> DeleteAsync(string id)
         {
-            throw new NotImplementedException();
+            var result = await productService.DeleteAsync(id);
+            return Ok(result);
         }
 
-        public Task<ActionResult<ApiResponse<ProductGetDetailResponse>>> GetDetailAsync(string id)
+        [HttpGet("id")]
+        public async Task<ActionResult<ApiResponse<ProductGetDetailResponse>>> GetDetailAsync(string id)
         {
-            throw new NotImplementedException();
+            var result = await productService.GetDetailAsync(id);
+            return Ok(result);
         }
 
-        public Task<ActionResult<ApiResponse<PagePagination<ProductGetDetailResponse>>>> GetListAsync([FromQuery] BaseQueryFilter filter)
+        [HttpGet("")]
+        public async Task<ActionResult<ApiResponse<PagePagination<ProductGetDetailResponse>>>> GetListAsync([FromQuery] BaseQueryFilter filter)
         {
-            throw new NotImplementedException();
+            var result = await productService.GetListAsync(filter);
+            return Ok(result);
         }
 
-        public Task<ActionResult<ApiResponse<bool>>> UpdateAsync([FromBody] ProductUpdateRequest resq, string id)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ApiResponse<bool>>> UpdateAsync([FromBody] ProductUpdateRequest resq, string id)
         {
-            throw new NotImplementedException();
+            var result = await productService.UpdateAsync(id, resq);
+            return Ok(result);
         }
     }
 }
