@@ -34,23 +34,23 @@ namespace FinalWebApp.Controllers
             var result = await contactService.DeleteAsync(id);
             return Ok(result);
         }
-        [HttpGet("{id}")]
 
+        [HttpGet("{id}")]
         public async Task<ActionResult<ApiResponse<ContactGetDetailResponse>>> GetDetailAsync(string id)
         {
             var result = await contactService.GetDetailAsync(id);
             return Ok(result);
         }
-        [HttpGet("")]
 
+        [HttpGet("")]
         public async Task<ActionResult<ApiResponse<PagePagination<ContactGetListResponse>>>> GetListAsync([FromQuery] BaseQueryFilter filter)
         {
             var result = await contactService.GetListAsync(filter);
             return Ok(result);
         }
+
         [HttpPut("{id}")]
         [ValidatedModel]
-
         public async Task<ActionResult<ApiResponse<bool>>> UpdateAsync([FromBody] ContactUpdateRequest resq, string id)
         {
             var result = await contactService.UpdateAsync(id, resq);

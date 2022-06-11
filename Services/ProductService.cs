@@ -25,9 +25,13 @@ namespace FinalWebApp.Services
             _orderRepository = orderRepository;
         }
 
-        public Task<ApiResponse<ProductGetDetailResponse>> GetDetailAsync(string id)
+        public async Task<ApiResponse<ProductGetDetailResponse>> GetDetailAsync(string id)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation("Get product detail");
+            var entity = await productRepository.GetByIdAsync(id);
+            if (entity is null)
+                throw new NotFoundDataException("Product not found");
+            return null;
         }
 
         public async Task<ApiResponse<PagePagination<ProductGetListResponse>>> GetListAsync(BaseQueryFilter filter)
