@@ -33,7 +33,8 @@ namespace FinalWebApp.Services
                     {
                         Content = listResponse,
                         First = 1,
-                        Last = listResponse.Count()
+                        Last = filter.Page,
+                        TotalElements = await _categoryRepository.CountAllAsync()
                     }
                     );
         }

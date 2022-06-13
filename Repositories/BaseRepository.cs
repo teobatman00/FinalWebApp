@@ -238,5 +238,18 @@ namespace FinalWebApp.Repositories
                 throw;
             }
         }
+
+        public async Task<long> CountAllAsync()
+        {
+            try
+            {
+                return await _db.CountAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                throw;
+            }
+        }
     }
 }

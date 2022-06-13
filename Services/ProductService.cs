@@ -19,10 +19,11 @@ namespace FinalWebApp.Services
         private IProductRepository productRepository;
         private ICategoryRepository _categoryRepository;
         private IOrderRepository _orderRepository;
-        public ProductService(IMapper mapper, ILogger<ProductService> logger, IProductRepository productRepository, IOrderRepository orderRepository) : base(mapper, logger)
+        public ProductService(IMapper mapper, ILogger<ProductService> logger, IProductRepository productRepository, IOrderRepository orderRepository, ICategoryRepository categoryRepository) : base(mapper, logger)
         {
             this.productRepository = productRepository;
             _orderRepository = orderRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<ApiResponse<ProductGetDetailResponse>> GetDetailAsync(string id)
@@ -31,7 +32,8 @@ namespace FinalWebApp.Services
             var entity = await productRepository.GetByIdAsync(id);
             if (entity is null)
                 throw new NotFoundDataException("Product not found");
-            return null;
+            var response = _mapper.Map<ProductEntity, ProductGetDetailResponse>(entity);
+            return new ApiResponse<ProductGetDetailResponse>().Success(response);
         }
 
         public async Task<ApiResponse<PagePagination<ProductGetListResponse>>> GetListAsync(BaseQueryFilter filter)
@@ -44,7 +46,8 @@ namespace FinalWebApp.Services
                     {
                         Content = listResponse,
                         First = 1,
-                        Last = listResponse.Count()
+                        Last = filter.Page,
+                        TotalElements = await _categoryRepository.CountAllAsync()
                     }
                 );
         }
@@ -57,7 +60,9 @@ namespace FinalWebApp.Services
             var categoryEntity = await _categoryRepository.GetByIdAsync(request.CategoryId);
             if (categoryEntity is null)
                 throw new NotFoundDataException($"Category {request.CategoryId} not found");
-            var listOrder = await _orderRepository.GetAllByIdAsync(request.OrdersId);
+            IEnumerable<OrderEntity> listOrder = new List<OrderEntity>();
+            if (request.OrdersId is not null)
+                listOrder = await _orderRepository.GetAllByIdAsync(request.OrdersId);
             var createEntity = _mapper.Map<ProductCreateRequest, ProductEntity>(request);
             createEntity.Category = categoryEntity;
             createEntity.Orders = listOrder.ToList();
@@ -70,7 +75,17 @@ namespace FinalWebApp.Services
             var availableEntity = await productRepository.GetByIdAsync(id);
             if (availableEntity is null)
                 throw new NotFoundDataException("Product not found");
-            return null;
+            var isAvailableSlug = await productRepository.ExistsByAsync(s => s.Slugs.Equals(request.Slugs));
+            if (isAvailableSlug)
+                throw new BadRequestException("Slug is duplicate");
+            var categoryEntity = await _categoryRepository.GetByIdAsync(request.CategoryId);
+            if (categoryEntity is null)
+                throw new NotFoundDataException($"Category {request.CategoryId} not found");
+            var listOrderEntity = await _orderRepository.GetAllByIdAsync(request.OrdersId);
+            var updateEntity = _mapper.Map(request, availableEntity);
+            await productRepository.SaveAsync(updateEntity);
+
+            return new ApiResponse<bool>().Success(true);
         }
 
         public async Task<ApiResponse<bool>> DeleteAsync(string id)

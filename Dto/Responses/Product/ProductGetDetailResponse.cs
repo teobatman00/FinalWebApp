@@ -7,12 +7,6 @@ using System.Threading.Tasks;
 namespace FinalWebApp.Dto.Responses.Product
 {
 
-    public record Category
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-    }
-
     public record Order
     {
         public string Id { get; set; }

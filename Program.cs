@@ -30,6 +30,7 @@ var mapperConfig = new MapperConfiguration(mp =>
     mp.AddProfile(new CategoryMapperProfile());
     mp.AddProfile(new ProductMapperProfile());
     mp.AddProfile(new ContactMapperProfile());
+    mp.AddProfile(new OrderMapperProfile());
 });
 builder.Services.AddSingleton(mapperConfig.CreateMapper());
 

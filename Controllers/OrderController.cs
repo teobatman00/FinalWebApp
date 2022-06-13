@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FinalWebApp.Controllers.Interfaces;
 using FinalWebApp.Dto.Requests.Order;
 using FinalWebApp.Dto.Responses.Order;
+using FinalWebApp.Filters;
 using FinalWebApp.Models;
 using FinalWebApp.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -23,11 +24,15 @@ namespace FinalWebApp.Controllers
             this.orderService = orderService;
         }
 
+        [HttpPost("")]
+        [ValidatedModel]
         public async Task<ActionResult<ApiResponse<bool>>> CreateAsync([FromBody] OrderCreateRequest request)
         {
             var result = await orderService.CreateAsync(request);
             return Ok(result);
         }
+
+        [HttpDelete("{id}")]
 
         public async Task<ActionResult<ApiResponse<bool>>> DeleteAsync(string id)
         {
@@ -35,17 +40,24 @@ namespace FinalWebApp.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}")]
+
         public async Task<ActionResult<ApiResponse<OrderGetDetailResponse>>> GetDetailAsync(string id)
         {
             var result = await orderService.GetDetailAsync(id);
             return Ok(result);
         }
 
+        [HttpGet("")]
+
         public async Task<ActionResult<ApiResponse<PagePagination<OrderGetListResponse>>>> GetListAsync([FromQuery] BaseQueryFilter filter)
         {
             var result = await orderService.GetListAsync(filter);
             return Ok(result);
         }
+
+        [HttpPut("{id}")]
+        [ValidatedModel]
 
         public async Task<ActionResult<ApiResponse<bool>>> UpdateAsync([FromBody] OrderUpdateRequest resq, string id)
         {

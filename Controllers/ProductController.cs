@@ -1,6 +1,7 @@
 ﻿using FinalWebApp.Controllers.Interfaces;
 using FinalWebApp.Dto.Requests.Product;
 using FinalWebApp.Dto.Responses.Product;
+using FinalWebApp.Filters;
 using FinalWebApp.Models;
 using FinalWebApp.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +22,7 @@ namespace FinalWebApp.Controllers
         }
 
         [HttpPost("")]
+        [ValidatedModel]
         public async Task<ActionResult<ApiResponse<bool>>> CreateAsync([FromBody] ProductCreateRequest request)
         {
             var result = await productService.CreateAsync(request);
@@ -49,6 +51,7 @@ namespace FinalWebApp.Controllers
         }
 
         [HttpPut("{id}")]
+        [ValidatedModel]
         public async Task<ActionResult<ApiResponse<bool>>> UpdateAsync([FromBody] ProductUpdateRequest resq, string id)
         {
             var result = await productService.UpdateAsync(id, resq);
