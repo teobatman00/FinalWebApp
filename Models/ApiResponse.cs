@@ -41,6 +41,15 @@ namespace FinalWebApp.Models
             return this;
         }
 
+        public ApiResponse<TData> Unauthorized(TData? data)
+        {
+            Code = HttpStatusCode.Unauthorized.ToString();
+            Message = "Unauthorized";
+            Date = DateTime.Now;
+            Data = data;
+            return this;
+        }
+
         public ApiResponse<TData> ServerError(TData? data)
         {
             Code = HttpStatusCode.InternalServerError.ToString();

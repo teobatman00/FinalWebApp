@@ -4,9 +4,12 @@ using FinalWebApp.Controllers;
 using FinalWebApp.Mappers;
 using FinalWebApp.Repositories;
 using FinalWebApp.Repositories.Interfaces;
+using FinalWebApp.Securities;
 using FinalWebApp.Services;
 using FinalWebApp.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +45,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+builder.Services.AddScoped<TTokenManager, TokenManager>();
 
 // register repository
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -54,6 +58,22 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+    {
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            RequireExpirationTime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpLogging(options =>

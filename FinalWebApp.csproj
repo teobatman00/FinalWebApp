@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,10 +24,8 @@
 
   <ItemGroup>
     <Folder Include="Dto\Requests\Transaction" />
-    <Folder Include="Dto\Requests\User" />
     <Folder Include="Dto\Requests\UserRole" />
     <Folder Include="Dto\Responses\Transaction" />
-    <Folder Include="Dto\Responses\User" />
     <Folder Include="Dto\Responses\UserRole" />
     <Folder Include="Enums\" />
   </ItemGroup>
