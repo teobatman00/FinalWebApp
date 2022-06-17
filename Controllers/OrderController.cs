@@ -33,7 +33,6 @@ namespace FinalWebApp.Controllers
         }
 
         [HttpDelete("{id}")]
-
         public async Task<ActionResult<ApiResponse<bool>>> DeleteAsync(string id)
         {
             var result = await orderService.DeleteAsync(id);
@@ -41,7 +40,6 @@ namespace FinalWebApp.Controllers
         }
 
         [HttpGet("{id}")]
-
         public async Task<ActionResult<ApiResponse<OrderGetDetailResponse>>> GetDetailAsync(string id)
         {
             var result = await orderService.GetDetailAsync(id);
@@ -49,7 +47,6 @@ namespace FinalWebApp.Controllers
         }
 
         [HttpGet("")]
-
         public async Task<ActionResult<ApiResponse<PagePagination<OrderGetListResponse>>>> GetListAsync([FromQuery] BaseQueryFilter filter)
         {
             var result = await orderService.GetListAsync(filter);
@@ -58,7 +55,6 @@ namespace FinalWebApp.Controllers
 
         [HttpPut("{id}")]
         [ValidatedModel]
-
         public async Task<ActionResult<ApiResponse<bool>>> UpdateAsync([FromBody] OrderUpdateRequest resq, string id)
         {
             var result = await orderService.UpdateAsync(id, resq);

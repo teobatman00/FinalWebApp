@@ -4,11 +4,14 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using FinalWebApp.Dto.Responses.Auth;
 
 namespace FinalWebApp.Securities
 {
-    public interface TTokenManager
+    public interface ITokenManager
     {
         Task<string> GenerateToken(IEnumerable<Claim> claims);
+        Task<LoginResponse> MapLoginResponse(IEnumerable<Claim> claims);
+        Task<string> GenerateRandomToken();
     }
 }

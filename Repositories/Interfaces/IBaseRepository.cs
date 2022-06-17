@@ -17,6 +17,7 @@ namespace FinalWebApp.Repositories.Interfaces
         Task<IEnumerable<TE>> GetAllAsync(Expression<Func<TE, bool>> predicate, PageRequest pageRequest);
         Task<long> CountAllAsync();
         Task<TE> GetByIdAsync(TPk id);
+        Task<TE> GetOneByAsync(Expression<Func<TE, bool>> predicate); 
         Task<IEnumerable<TE>> GetAllByIdAsync(IEnumerable<TPk> id);
         Task SaveAsync(TE entity);
         Task DeleteAsync(TE entity);

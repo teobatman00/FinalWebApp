@@ -127,6 +127,19 @@ namespace FinalWebApp.Repositories
             }
         }
 
+        public async Task<TE> GetOneByAsync(Expression<Func<TE, bool>> predicate)
+        {
+            try
+            {
+                return await _db.Where(predicate).FirstOrDefaultAsync();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message);
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<TE>> GetAllByIdAsync(IEnumerable<TPk> id)
         {
             try

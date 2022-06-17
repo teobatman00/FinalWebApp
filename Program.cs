@@ -45,7 +45,8 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRoleService, UserRoleService>();
-builder.Services.AddScoped<TTokenManager, TokenManager>();
+builder.Services.AddScoped<ITokenManager, TokenManager>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // register repository
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
