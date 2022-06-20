@@ -34,6 +34,7 @@ var mapperConfig = new MapperConfiguration(mp =>
     mp.AddProfile(new ProductMapperProfile());
     mp.AddProfile(new ContactMapperProfile());
     mp.AddProfile(new OrderMapperProfile());
+    mp.AddProfile(new TransactionMapperProfile());
 });
 builder.Services.AddSingleton(mapperConfig.CreateMapper());
 

@@ -23,9 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dto\Requests\Transaction" />
     <Folder Include="Dto\Requests\UserRole" />
-    <Folder Include="Dto\Responses\Transaction" />
     <Folder Include="Dto\Responses\UserRole" />
     <Folder Include="Enums" />
     <Folder Include="Enums\" />
