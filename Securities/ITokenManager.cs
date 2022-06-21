@@ -10,7 +10,7 @@ namespace FinalWebApp.Securities
 {
     public interface ITokenManager
     {
-        Task<string> GenerateToken(IEnumerable<Claim> claims);
+        Task<string> CreateToken(IEnumerable<Claim> claims);
         Task<LoginResponse> MapLoginResponse(IEnumerable<Claim> claims);
         Task<string> GenerateRandomToken();
     }

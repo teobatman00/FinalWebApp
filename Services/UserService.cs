@@ -12,14 +12,16 @@ namespace FinalWebApp.Services;
 public class UserService: BaseService<UserService>, IUserService
 {
     private IUserRepository userRepository;
-    public UserService(IMapper mapper, ILogger<UserService> logger, IUserRepository userRepository) : base(mapper, logger)
+    private IAuthService _authService;
+    public UserService(IMapper mapper, ILogger<UserService> logger, IUserRepository userRepository, IAuthService authService) : base(mapper, logger)
     {
         this.userRepository = userRepository;
+        _authService = authService;
     }
 
     public async Task<ApiResponse<bool>> CreateAsync(UserCreateRequest request)
     {
-        var existUsername = await userRepository.ExistsByAsync(s => s.Username.Equals(request.Username));
+        var existUsername = await _authService.ExistUsername(request.Username);
         if (existUsername)
             throw new BadRequestException("Username is exists");
         var entity = _mapper.Map<UserCreateRequest, UserEntity>(request);

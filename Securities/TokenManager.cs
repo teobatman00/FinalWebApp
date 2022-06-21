@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using FinalWebApp.Dto.Responses.Auth;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FinalWebApp.Securities
 {
@@ -14,20 +16,47 @@ namespace FinalWebApp.Securities
         private readonly IConfiguration _configuration;
         private readonly ILogger<TokenManager> _logger;
 
+        private const double TokenExpiredMinutes = 120;
+        private const string TokenType = "Bearer";
+
         public TokenManager(IConfiguration configuration, ILogger<TokenManager> logger)
         {
             _configuration = configuration;
             _logger = logger;
         }
 
-        public Task<string> GenerateToken(IEnumerable<Claim> claims)
+        public async Task<string> CreateToken(IEnumerable<Claim> claims)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration[TokenConfig.JwtKey]));
+                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                    issuer: _configuration[TokenConfig.JwtIssuer],
+                    audience: _configuration[TokenConfig.JwtIssuer],
+                    claims: claims,
+                    notBefore: DateTime.Now,
+                    expires: DateTime.Now.AddMinutes(TokenExpiredMinutes),
+                    signingCredentials: credentials
+                    );
+                return await Task.Run(() => new JwtSecurityTokenHandler().WriteToken(token));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                throw;
+            }
         }
 
-        public Task<LoginResponse> MapLoginResponse(IEnumerable<Claim> claims)
+        public async Task<LoginResponse> MapLoginResponse(IEnumerable<Claim> claims)
         {
-            throw new NotImplementedException();
+            var resultToken = await CreateToken(claims);
+            return new LoginResponse
+            {
+                AccessToken = resultToken,
+                ExpiresIn = Convert.ToInt32(TokenExpiredMinutes),
+                TokenType = TokenType
+            };
         }
 
         public async Task<string> GenerateRandomToken()

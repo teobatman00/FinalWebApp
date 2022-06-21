@@ -7,4 +7,6 @@ namespace FinalWebApp.Services.Interfaces;
 public interface IAuthService
 {
     Task<ApiResponse<LoginResponse>> LoginAsync(LoginRequest request);
+    Task<ApiResponse<bool>> LogoutAsync();
+    Task<bool> ExistUsername(string username);
 }

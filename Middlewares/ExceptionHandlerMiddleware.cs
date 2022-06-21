@@ -36,11 +36,15 @@ namespace FinalWebApp.Middlewares
                 {
                     case NotFoundDataException:
                         response.StatusCode = Convert.ToInt32(HttpStatusCode.NotFound);
-                        responseModel.NotFound(null);
+                        responseModel.NotFound(e.Message);
                         break;
                     case BadRequestException:
                         response.StatusCode = Convert.ToInt32(HttpStatusCode.BadRequest);
-                        responseModel.BadRequest(null);
+                        responseModel.BadRequest(e.Message);
+                        break;
+                    case UnauthorizedException:
+                        response.StatusCode = Convert.ToInt32(HttpStatusCode.Unauthorized);
+                        responseModel.Unauthorized(e.Message);
                         break;
                     default:
                         response.StatusCode = Convert.ToInt32(HttpStatusCode.InternalServerError);
